@@ -28,3 +28,10 @@ services:
       - "5429:5432"
     environment:
       - POSTGRES_PASSWORD=admin
+  postgresql_10:
+    image: postgres:10.18-alpine
+    container_name: dbadmin_postgresql_10
+    ports:
+      - "5428:5432"
+    environment:
+      - POSTGRES_PASSWORD=admin
