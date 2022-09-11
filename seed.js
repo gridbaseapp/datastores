@@ -346,11 +346,11 @@ CREATE MATERIALIZED VIEW {{ db }}_materialized_comments_view AS
   writeFileSync('seed.sql', output);
 
   [
-    'dbadmin_postgresql_10',
-    'dbadmin_postgresql_11',
-    'dbadmin_postgresql_12',
-    'dbadmin_postgresql_13',
-    'dbadmin_postgresql_14',
+    'gridbase_postgresql_10',
+    'gridbase_postgresql_11',
+    'gridbase_postgresql_12',
+    'gridbase_postgresql_13',
+    'gridbase_postgresql_14',
   ].forEach(service => {
     execSync(`docker cp seed.sql ${service}:seed.sql`);
     execSync(`docker exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "DROP DATABASE IF EXISTS ${db};" >> /dev/null`);

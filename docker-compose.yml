@@ -2,35 +2,35 @@ version: "3.9"
 services:
   postgresql_14:
     image: postgres:14.0-alpine
-    container_name: dbadmin_postgresql_14
+    container_name: gridbase_postgresql_14
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=admin
   postgresql_13:
     image: postgres:13.4-alpine
-    container_name: dbadmin_postgresql_13
+    container_name: gridbase_postgresql_13
     ports:
       - "5431:5432"
     environment:
       - POSTGRES_PASSWORD=admin
   postgresql_12:
     image: postgres:12.8-alpine
-    container_name: dbadmin_postgresql_12
+    container_name: gridbase_postgresql_12
     ports:
       - "5430:5432"
     environment:
       - POSTGRES_PASSWORD=admin
   postgresql_11:
     image: postgres:11.13-alpine
-    container_name: dbadmin_postgresql_11
+    container_name: gridbase_postgresql_11
     ports:
       - "5429:5432"
     environment:
       - POSTGRES_PASSWORD=admin
   postgresql_10:
     image: postgres:10.18-alpine
-    container_name: dbadmin_postgresql_10
+    container_name: gridbase_postgresql_10
     ports:
       - "5428:5432"
     environment:
