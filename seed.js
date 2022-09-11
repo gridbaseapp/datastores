@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import { writeFileSync, unlinkSync } from 'fs';
 import nunjucks from 'nunjucks';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 faker.seed(0);
 
@@ -206,8 +206,8 @@ INSERT INTO {{ db }}_books (title, author, publisher, genre) VALUES
 {%- for i in range(0, 50) %}
   (
     '{{ faker.lorem.words()|e }}',
-    '{{ faker.name.findName()|e }}',
-    '{{ faker.company.companyName()|e }}',
+    '{{ faker.name.fullName()|e }}',
+    '{{ faker.company.name()|e }}',
     '{{ faker.lorem.words()|e }}'
   ){% if not loop.last %},{% endif %}
 {%- endfor %}
@@ -224,7 +224,7 @@ INSERT INTO {{ db }}_movies (title, director, release_date) VALUES
 {%- for i in range(0, 50) %}
   (
     '{{ faker.lorem.sentence()|e }}',
-    '{{ faker.name.findName()|e }}',
+    '{{ faker.name.fullName()|e }}',
     '{{ faker.date.past().toISOString() }}'
   ){% if not loop.last %},{% endif %}
 {%- endfor %}
@@ -261,7 +261,7 @@ INSERT INTO {{ db }}_addresses (city, street, zip, state, country, time_zone, la
 {%- for i in range(0, 20) %}
   (
     '{{ faker.address.city()|e }}',
-    '{{ faker.address.streetName()|e }}',
+    '{{ faker.address.street()|e }}',
     '{{ faker.address.zipCode()|e }}',
     '{{ faker.address.state()|e }}',
     '{{ faker.address.country()|e }}',
@@ -352,12 +352,12 @@ CREATE MATERIALIZED VIEW {{ db }}_materialized_comments_view AS
     'gridbase_postgresql_13',
     'gridbase_postgresql_14',
   ].forEach(service => {
-    execSync(`docker cp seed.sql ${service}:seed.sql`);
-    execSync(`docker exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "DROP DATABASE IF EXISTS ${db};" >> /dev/null`);
-    execSync(`docker exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "DROP ROLE IF EXISTS ${db};" >> /dev/null`);
-    execSync(`docker exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "CREATE ROLE ${db} LOGIN PASSWORD '${db}';" >> /dev/null`);
-    execSync(`docker exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "CREATE DATABASE ${db} OWNER ${db};" >> /dev/null`);
-    execSync(`docker exec -e PGPASSWORD=${db} ${service} psql -h localhost -U ${db} -d ${db} -f seed.sql >> /dev/null`)
+    execSync(`podman cp seed.sql ${service}:seed.sql`);
+    execSync(`podman exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "DROP DATABASE IF EXISTS ${db};" >> /dev/null`);
+    execSync(`podman exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "DROP ROLE IF EXISTS ${db};" >> /dev/null`);
+    execSync(`podman exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "CREATE ROLE ${db} LOGIN PASSWORD '${db}';" >> /dev/null`);
+    execSync(`podman exec -e PGPASSWORD=admin ${service} psql -h localhost -U postgres -d postgres -c "CREATE DATABASE ${db} OWNER ${db};" >> /dev/null`);
+    execSync(`podman exec -e PGPASSWORD=${db} ${service} psql -h localhost -U ${db} -d ${db} -f seed.sql >> /dev/null`)
   });
 
   unlinkSync('seed.sql');

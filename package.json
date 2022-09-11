@@ -1,7 +1,10 @@
 {
   "type": "module",
+  "scripts": {
+    "seed": "node ./seed.js"
+  },
   "dependencies": {
-    "faker": "^5.5.3",
+    "@faker-js/faker": "^7.5.0",
     "nunjucks": "^3.2.3"
   }
 }
